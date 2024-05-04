@@ -1,47 +1,77 @@
+body {
+    background-color: #302E2E; /* Set default background color to red */
+
+}
+
+h1 {
+    margin-top: 75px; /* Adjust the top margin as needed */
+    text-align: center;
+
+
+    color:#EFEFEF;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+p {
+    color: #EFEFEF;
+    font-weight: normal;
+}
+
+
 #resizedImage {
-    width: 40%; /* Set the desired width */
+    width: 30%; /* Set the desired width */
     height: auto; /* Maintain aspect ratio */
     opacity: 1;
     position: absolute; /* Set the position to absolute */
-    top: 50px; /* Adjust the distance from the top */
-    left: 50px; /* Adjust the distance from the left */
+    top: 170px; /* Adjust the distance from the top */
+    left: 130px; /* Adjust the distance from the left */
 }
 
 
 #resizedImage_right {
-    width: 40%; /* Set the desired width */
+    width: 30%; /* Set the desired width */
     height: auto; /* Maintain aspect ratio */
     opacity: 1;
     position: absolute; /* Set the position to absolute */
-    top: 50px; /* Adjust the distance from the top */
-    left: 600px; /* Adjust the distance from the left */
+    top: 170px; /* Adjust the distance from the top */
+    right: 130px; /* Adjust the distance from the left */
 }
 
 .text-container {
-        max-width: 300px; /* Define the maximum width before line breaks */
-        border: 1px solid black;
+        max-width: 600px; /* Define the maximum width before line breaks */
+        border: 0px solid black;
         padding: 5px;
         word-wrap: break-word; /* Allow long words to break */
-        position: relative; /* or absolute, fixed, sticky */
+        position: absolute; /* or absolute, fixed, sticky */
         text-align: center; /* Center-align the text */
-        top: 300px; /* Change the distance from the top */
+        top: 600px; /* Change the distance from the top */
         left: 50px;
+        font-size: 36px;
+        font-weight: normal; /* This makes the text bold */
 }
 
- .square {
-      width: 50%; /* Change the width to adjust the size of the square */
-      height: 40%; /* Change the height to adjust the size of the square */
-      background-color: blue; /* Change the background color of the square */
-      position: absolute; /* Position the square relative to its containing element */
-      top: 400px; /* Distance from the top of the containing element */
-      left: 50px; /* Distance from the left of the containing element */
- }
+.text-container_r {
+        max-width: 600px; /* Define the maximum width before line breaks */
+        border: 0px solid black;
+        padding: 5px;
+        word-wrap: break-word; /* Allow long words to break */
+        position: absolute; /* or absolute, fixed, sticky */
+        text-align: center; /* Center-align the text */
+        top: 600px; /* Change the distance from the top */
+        right: 50px;
+        font-size: 36px;
+        font-weight: normal; /* This makes the text bold */
+}
+
+
 
  .square_right {
-      width: 50%; /* Change the width to adjust the size of the square */
+      width: 100%; /* Change the width to adjust the size of the square */
       height: 40%; /* Change the height to adjust the size of the square */
-      background-color: green; /* Change the background color of the square */
+      background-color: #302E2E; /* Change the background color of the square */
       position: absolute; /* Position the square relative to its containing element */
-      top: 400px; /* Distance from the top of the containing element */
-      left: 500px; /* Distance from the left of the containing element */
+      top: 600px; /* Distance from the top of the containing element */
+      left: 0px; /* Distance from the left of the containing element */
  }
+

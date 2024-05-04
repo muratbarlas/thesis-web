@@ -10,12 +10,12 @@ const tween = new TWEEN.Tween(coords, false) // Create a new tween that modifies
 			// Called after tween.js updates 'coords'.
 			// Move 'box' to the position described by 'coords' with a CSS translation.
 		box.style.setProperty('transform', 'translate(' + coords.x + 'px, ' + coords.y + 'px)')
-		console.log(coords)
+		//console.log(coords)
 
 	})
 	.onComplete(function() {
       // Stop the tween when it completes
-      console.log("complete")
+     // console.log("complete")
       coords.x = 0
       coords.y = 0
       //tween.stop();
@@ -25,7 +25,7 @@ const tween = new TWEEN.Tween(coords, false) // Create a new tween that modifies
 
 // Setup the animation loop.
 function animate(time) {
-    console.log("animating")
+    //console.log("animating")
 	tween.update(time)
 	animationID = requestAnimationFrame(animate)
 }
@@ -41,11 +41,11 @@ function stopAnimation() {
     cancelAnimationFrame(animationID);
     animationID = null;
     tween.stop()
-    console.log("stopped")
-    console.log(coords_right)
+    //console.log("stopped")
+    //console.log(coords_right)
     tween.to({x: 0, y: 0}, 1)
     tween.stop()
-    tween.to({x: 0, y: 0}, 2000)
+    tween.to({x: 0, y: 0}, 800)
     tween.start()
 }
 /////////////////////////////////////right anim
@@ -59,12 +59,12 @@ const tween_right = new TWEEN.Tween(coords_right, false) // Create a new tween t
 			// Called after tween.js updates 'coords'.
 			// Move 'box' to the position described by 'coords' with a CSS translation.
 		box_right.style.setProperty('transform', 'translate(' + coords_right.x + 'px, ' + coords_right.y + 'px)')
-		console.log(coords_right)
+		//console.log(coords_right)
 
 	})
 	.onComplete(function() {
       // Stop the tween when it completes
-      console.log("complete")
+     // console.log("complete")
       coords_right.x = 0
       coords_right.y = 0
       //tween.stop();
@@ -72,7 +72,7 @@ const tween_right = new TWEEN.Tween(coords_right, false) // Create a new tween t
 	.start() // Start the tween immediately.
 
 function animate_right(time) {
-    console.log("animating_r")
+    //console.log("animating_r")
 	tween_right.update(time)
 	animationID_right = requestAnimationFrame(animate_right)
 }
@@ -89,11 +89,11 @@ function stopAnimation_right() {
     cancelAnimationFrame(animationID_right);
     animationID_right = null;
     tween_right.stop()
-    console.log("stoppedr")
-    console.log(coords_right)
+    //console.log("stoppedr")
+    //console.log(coords_right)
     tween_right.to({x: 0, y: 0}, 1)
     tween_right.stop()
-    tween_right.to({x: 0, y: 0}, 2000)
+    tween_right.to({x: 0, y: 0}, 800)
     tween_right.start()
 }
 ////////////////////////////////////////////////////////////
@@ -109,22 +109,41 @@ document.addEventListener('DOMContentLoaded', function() {
 function loadNext() {
     // Make an AJAX request to get the next image URL
     $.get('/next', function(data) {
+        if (data && Object.keys(data).length === 2) {
         // Update the image source
         $('#resizedImage').attr('src', data.image_url);
-        $('#string-display').text(data.first_string);
+        $('#string-display').text(data.first_string);}
+        else{
+            $('#resizedImage_right').attr('src', data.image_url_r);
+            $('#string-display_right').text(data.right_string);
+            $('#resizedImage').attr('src', data.image_url);
+            $('#string-display').text(data.first_string);
+        }
     //console.log("heyy")
     }).fail(function() {
+        console.log(data.image_url)
         console.error('Failed to load next image.');
     });
 }
 
 function loadNext_right() {
     // Make an AJAX request to get the next image URL
-     $.get('/next_right', function(data) {
+     $.get('/next_right', function(data){
         // Update the image source
-        $('#resizedImage_right').attr('src', data.image_url);
+         if (data && Object.keys(data).length === 2) {
+            $('#resizedImage_right').attr('src', data.image_url_r);
+            $('#string-display_right').text(data.right_string);
+        } else {
+            console.log("got it ")
+            console.log(data.first_string)
+            $('#resizedImage_right').attr('src', data.image_url_r);
+            $('#string-display_right').text(data.right_string);
+            $('#resizedImage').attr('src', data.image_url);
+            $('#string-display').text(data.first_string);
+        }
     console.log("heyy2")
     }).fail(function() {
+
         console.error('Failed to load next image.');
     });
 
@@ -132,7 +151,7 @@ function loadNext_right() {
 
 document.addEventListener("keydown", function(event) {
     // Check if the pressed key is the left arrow key
-    if (event.key === "ArrowLeft") {
+    if (event.key === "ArrowLeft"|| event.key === "a") {
         // Your code to handle left arrow key press goes here
         //console.log("Left arrow key pressed");
         loadNext()
@@ -143,7 +162,7 @@ document.addEventListener("keydown", function(event) {
 
 document.addEventListener("keydown", function(event) {
     // Check if the pressed key is the left arrow key
-    if (event.key === "ArrowRight") {
+    if (event.key === "ArrowRight"|| event.key === "b") {
         // Your code to handle left arrow key press goes here
         //console.log("Left arrow key pressed");
         loadNext_right()

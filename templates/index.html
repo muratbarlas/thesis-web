@@ -4,28 +4,24 @@
     <meta charset="UTF-8">
     <title>Information Machine</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/23.1.1/tween.umd.js" integrity="sha512-J8rv5Qz++2kwDP7YUBqxm3LCtPXWghcqXvxPrLrk81E31eMA/tEAjKakXJJDQoy9tj+41+EDYDsD6Xc76lnT7w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    <h1>Select the AI generated news headline by pressing the corresponding button</h1>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1 id="hello">Information Machine</h1>
-
 
     <div id="csv-data"></div>
 
 
-     <div><button id="nextButton" onclick="loadNext()">left Button</button></div>
-
-
-    <div><button id="rightButton" onclick="loadNext_right()">right Button</button></div>
 
     <img id="resizedImage" src="{{ url_for('static', filename='images/'+first_image_url) }}">
     <img id="resizedImage_right" src="{{ url_for('static', filename='images/'+right_image_url) }}">
 
 
-    <div class="square"></div>
     <div class="square_right"></div>
     <p class="text-container" id="string-display">{{ first_string }}</p>
+    <p class="text-container_r" id="string-display_right">{{ right_string }}</p>
+
+    <!div class="test_square"></div>
 
 
 
