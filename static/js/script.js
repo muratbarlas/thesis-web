@@ -152,21 +152,58 @@ function loadNext_right() {
 document.addEventListener("keydown", function(event) {
     // Check if the pressed key is the left arrow key
     if (event.key === "ArrowLeft"|| event.key === "a") {
-        // Your code to handle left arrow key press goes here
-        //console.log("Left arrow key pressed");
-        loadNext()
-        stopAnimation()
-        animate()
+        $.get('/get_counter', function(data) {
+            if (data.counter === 2) {
+                // Perform actions if the counter variable is equal to 0
+                loadNext_right();
+                stopAnimation_right();
+                animate_right();
+                loadNext()
+                stopAnimation()
+                animate()
+
+
+            } else  {
+                console.log(data.counter)
+                loadNext()
+                stopAnimation()
+                animate()
+            }
+
+
+         }).fail(function() {
+            console.error('Failed to get counter value.');
+        });
+
     }
 });
 
+
+
 document.addEventListener("keydown", function(event) {
-    // Check if the pressed key is the left arrow key
-    if (event.key === "ArrowRight"|| event.key === "b") {
-        // Your code to handle left arrow key press goes here
-        //console.log("Left arrow key pressed");
-        loadNext_right()
-        stopAnimation_right()
-        animate_right()
+    // Check if the pressed key is the right arrow key or the 'b' key
+    if (event.key === "ArrowRight" || event.key === "b") {
+        // Make an AJAX request to get the value of the counter variable from the Flask server
+        $.get('/get_counter', function(data) {
+            // Check if the counter variable is equal to 0
+            if (data.counter === 2) {
+                // Perform actions if the counter variable is equal to 0
+                loadNext_right();
+                stopAnimation_right();
+                animate_right();
+                loadNext()
+                stopAnimation()
+                animate()
+
+            } else  {
+                console.log(data.counter)
+                loadNext_right()
+                stopAnimation_right()
+                animate_right()
+            }
+        }).fail(function() {
+            console.error('Failed to get counter value.');
+        });
     }
 });
+

@@ -9,7 +9,7 @@ previous_numbers_r = set()
 def generate_unique_random_f():
     global previous_numbers
     while True:
-        num = random.randint(0, 8)
+        num = random.randint(0, 15)
         if num not in previous_numbers_f:
             previous_numbers_f.add(num)
             return num
@@ -17,7 +17,7 @@ def generate_unique_random_f():
 def generate_unique_random_r():
     global previous_numbers_r
     while True:
-        num = random.randint(0, 8)
+        num = random.randint(0, 14)
         if num not in previous_numbers_r:
             previous_numbers_r.add(num)
             return num
@@ -28,7 +28,7 @@ total_qs = 0
 img_l = []
 img_r = []
 
-for i in range(10):
+for i in range(16):
     if i!=0:
         img_l.append("f"+str(i)+".jpg")
         img_r.append("r" + str(i) + ".jpg")
@@ -67,6 +67,11 @@ fake_list = [
   "NYC voters waking up to find presidential ballot error that could cost Biden votes on local races",
 
   "Biden suffers another major legal defeat in fight over weakened ICE deportations",
+
+"GameStop Claims It’s an “Essential Business” to Stay Open During Coronavirus Closures",
+
+"Cyberpunk 2077 delayed, doing 'more crunch than maybe have been necessary'",
+"Astronomers are worried about more and more satellites forming 'megaconstellations' around Earth after SpaceX launched nearly 50 Friday"
 ]
 
 real_list = [
@@ -88,7 +93,12 @@ real_list = [
 
 "Hillary Clinton warns AI tech will make 2016 election disinformation 'look primitive'",
 
-"Microsoft says a Russian hacking group is still trying to crack into its systems"
+"Microsoft says a Russian hacking group is still trying to crack into its systems",
+"Reddit CEO tells user, “we are not the thought police,” then suspends that user",
+  "Ben Affleck finally achieves lifelong dream of not having to play Batman anymore",
+  "McDonald's robber demands chicken nuggets, has to accept breakfast food because it was still too early",
+  "North Korean Founder Kim Il Sung Did Not Have the Ability to Teleport, State Media Admits",
+    "Tim Cook says employees who leak memos do not belong at Apple, according to leaked memo"
 ]
 
 
@@ -135,18 +145,17 @@ def next_file():
     global current_index, first_image_url, first_text, list_headlines,total_qs,round_count,img_l,im_r
     current_index = (current_index + 1) % len(list_ims)
     total_qs += 1
-    round_count += 1
-
 
     if round_count < 3:
         id_f = generate_unique_random_f()
         left_text = fake_list[id_f]
         left_image = img_l[id_f]
+        round_count += 1
 
         return jsonify({'image_url':  'static/images/'+left_image ,
                         'first_string':left_text
                         })
-    elif round_count == 3:
+    elif round_count >= 3:
         print("burdayinnn")
         id_r = generate_unique_random_r()
         print("buraya r", id_r)
@@ -173,9 +182,9 @@ def next_file():
 def next_file_right():
     global right_im_index, right_text, total_qs, round_count, real_list, left_text, fake_list, img_l, img_r
     total_qs += 1
-    round_count +=1
     print("round count", round_count)
     if round_count<3:
+        round_count += 1
 
         # right_im_index = (right_im_index + 1) % len(list_ims)
         print('we are on the right side', right_im_index)
@@ -187,7 +196,7 @@ def next_file_right():
         return jsonify({'image_url_r': 'static/images/' + img_right,
                         'right_string': right_text
                         })
-    elif round_count ==3:
+    elif round_count >=3:
           print("burdayinnn")
           id_r = generate_unique_random_r()
           id_f = generate_unique_random_f()
@@ -209,7 +218,11 @@ def next_file_right():
 
 
 
-
+@app.route('/get_counter', methods=['GET'])
+def get_counter():
+    global round_count
+    print("adana")
+    return jsonify({'counter': round_count})
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
