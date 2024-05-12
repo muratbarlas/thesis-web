@@ -156,6 +156,35 @@ function loadNext() {
 function loadNext_right() {
     // Make an AJAX request to get the next image URL
      $.get('/next_right', function(data){
+         if (data.redirect) {
+            // Redirect the browser to the specified URL
+            window.location.href = data.redirect;
+         } else {
+            // Update the image source
+             if (data && Object.keys(data).length === 2) {
+                $('#resizedImage_right').attr('src', data.image_url_r);
+                $('#string-display_right').text(data.right_string);
+            } else {
+                console.log("got it ")
+                console.log(data.first_string)
+                $('#resizedImage_right').attr('src', data.image_url_r);
+                $('#string-display_right').text(data.right_string);
+                $('#resizedImage').attr('src', data.image_url);
+                $('#string-display').text(data.first_string);
+            }
+         }
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        // Log the error to the console
+        console.error('Failed to load next image: ' + textStatus + ', ' + errorThrown);
+    });
+
+}
+
+
+/*
+function loadNext_right() {
+    // Make an AJAX request to get the next image URL
+     $.get('/next_right', function(data){
         // Update the image source
          if (data && Object.keys(data).length === 2) {
             $('#resizedImage_right').attr('src', data.image_url_r);
@@ -175,6 +204,9 @@ function loadNext_right() {
     });
 
 }
+*/
+
+
 
 document.addEventListener("keydown", function(event) {
     // Check if the pressed key is the left arrow key

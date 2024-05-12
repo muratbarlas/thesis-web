@@ -23,7 +23,7 @@ def generate_unique_random_r():
             return num
 
 round_count = 0
-total_qs = 10
+total_qs = 0
 
 img_l = []
 img_r = []
@@ -112,8 +112,12 @@ first_image_url = list_ims[current_index]
 first_text = fake_list[0]
 right_text = real_list[0]
 
-@app.route('/')
+@app.route('/index')
 def index():
+    global total_qs
+    total_qs = 10
+
+    print("hello worl index page loaded")
     df = pd.read_csv('images.csv')  # Assuming your CSV file is named 'data.csv'
     #first_image_url = df.iloc[0,0] # Assuming 'image_url' is the column containing image URLs
     first_image_url = img_l[0]
@@ -148,7 +152,6 @@ def next_file():
     print('e bu total', total_qs)
     if total_qs >= 15:
         print('cok')
-
         return jsonify({'redirect': url_for('end_page')})
     else:
         print('az')
@@ -188,7 +191,7 @@ def next_file():
 def end_page():
     return render_template('end_page.html')
 
-@app.route('/start')
+@app.route('/')
 def start_page():
     return render_template('welcome.html')
 

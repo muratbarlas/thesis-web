@@ -46,7 +46,16 @@
     <p>Elections are coming up. Soon you will be entering a national voting booth. Generative AI is on the rise, making the line between fact and fabrication increasingly blurry. How well do you navigate this lanscape?  </p>
     <p class="blink">Press any button to begin</p>
  </div>
+ <script>
+        // Function to handle the key press event
+        function handleKeyPress(event) {
+            // Redirect to a specified page on any key press
+            window.location.href = 'index';
+        }
 
+        // Add event listener for the 'keydown' event
+        document.addEventListener('keydown', handleKeyPress);
+    </script>
 
 </body>
 </html>
