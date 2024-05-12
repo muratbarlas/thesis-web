@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, session, url_for
 from flask_socketio import SocketIO
 import pandas as pd
+import random
 import content_class
 
 import random
@@ -112,10 +113,15 @@ first_image_url = list_ims[current_index]
 first_text = fake_list[0]
 right_text = real_list[0]
 
+def calculate_score():
+    value = random.randint(60, 90)
+    return value
+
+
 @app.route('/index')
 def index():
     global total_qs
-    total_qs = 10
+    total_qs = 0
 
     print("hello worl index page loaded")
     df = pd.read_csv('images.csv')  # Assuming your CSV file is named 'data.csv'
@@ -149,9 +155,11 @@ def next_file():
     global current_index, first_image_url, first_text, list_headlines,total_qs,round_count,img_l,im_r
     current_index = (current_index + 1) % len(list_ims)
     total_qs += 1
-    print('e bu total', total_qs)
+    print('left clicked, total_qs:', total_qs)
     if total_qs >= 15:
         print('cok')
+        score = calculate_score()
+        session['score'] = score
         return jsonify({'redirect': url_for('end_page')})
     else:
         print('az')
@@ -187,9 +195,12 @@ def next_file():
                             })
 
 
+
+
 @app.route('/end')
 def end_page():
-    return render_template('end_page.html')
+    score = session.get('score', 79) #79 is placeholder
+    return render_template('end_page.html',  score=score)
 
 @app.route('/')
 def start_page():
@@ -199,9 +210,13 @@ def start_page():
 def next_file_right():
     global right_im_index, right_text, total_qs, round_count, real_list, left_text, fake_list, img_l, img_r
     total_qs += 1
+    print('right clicked, total_qs:', total_qs)
     print("round count", round_count)
     if total_qs >= 15:
-        return jsonify({'redirect': url_for('end_page')})
+        score = calculate_score()
+        session['score'] = score
+        return jsonify({'redirect': url_for('end_page'),
+                        })
 
     else:
         if round_count<3:
