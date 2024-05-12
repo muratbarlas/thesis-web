@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
         animate()
     });
 });
-
+/*
 function loadNext() {
     // Make an AJAX request to get the next image URL
     $.get('/next', function(data) {
@@ -123,6 +123,33 @@ function loadNext() {
     }).fail(function() {
         console.log(data.image_url)
         console.error('Failed to load next image.');
+    });
+}
+*/
+function loadNext() {
+    // Make an AJAX request to get the next image URL
+    $.get('/next', function(data) {
+        // Check if the server response contains a redirect URL
+        if (data.redirect) {
+            // Redirect the browser to the specified URL
+            window.location.href = data.redirect;
+        } else {
+            // Handle the normal response with image and text updates
+            if (data && Object.keys(data).length === 2) {
+                // If response has 2 keys, assume it's the first set of images/text
+                $('#resizedImage').attr('src', data.image_url);
+                $('#string-display').text(data.first_string);
+            } else {
+                // Otherwise handle the second set of images/text
+                $('#resizedImage_right').attr('src', data.image_url_r);
+                $('#string-display_right').text(data.right_string);
+                $('#resizedImage').attr('src', data.image_url);
+                $('#string-display').text(data.first_string);
+            }
+        }
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        // Log the error to the console
+        console.error('Failed to load next image: ' + textStatus + ', ' + errorThrown);
     });
 }
 
@@ -206,4 +233,3 @@ document.addEventListener("keydown", function(event) {
         });
     }
 });
-

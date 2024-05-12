@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, session
+from flask import Flask, render_template, jsonify, session, url_for
 from flask_socketio import SocketIO
 import pandas as pd
 import content_class
@@ -23,7 +23,7 @@ def generate_unique_random_r():
             return num
 
 round_count = 0
-total_qs = 0
+total_qs = 10
 
 img_l = []
 img_r = []
@@ -145,76 +145,94 @@ def next_file():
     global current_index, first_image_url, first_text, list_headlines,total_qs,round_count,img_l,im_r
     current_index = (current_index + 1) % len(list_ims)
     total_qs += 1
+    print('e bu total', total_qs)
+    if total_qs >= 15:
+        print('cok')
 
-    if round_count < 3:
-        id_f = generate_unique_random_f()
-        left_text = fake_list[id_f]
-        left_image = img_l[id_f]
-        round_count += 1
+        return jsonify({'redirect': url_for('end_page')})
+    else:
+        print('az')
+        if round_count < 3:
+            id_f = generate_unique_random_f()
+            left_text = fake_list[id_f]
+            left_image = img_l[id_f]
+            round_count += 1
 
-        return jsonify({'image_url':  'static/images/'+left_image ,
-                        'first_string':left_text
-                        })
-    elif round_count >= 3:
-        print("burdayinnn")
-        id_r = generate_unique_random_r()
-        print("buraya r", id_r)
-        id_f = generate_unique_random_f()
-        print("buraya bak l", id_f)
-        right_text = real_list[id_r]
-        left_text = fake_list[id_f]
-        print("liste: ", img_l)
-        print(img_l[id_f])
-        left_image = img_l[id_f]
-        right_image = img_r[id_r]
+            return jsonify({'image_url':  'static/images/'+left_image ,
+                            'first_string':left_text
+                            })
+        elif round_count >= 3:
+            print("burdayinnn")
+            id_r = generate_unique_random_r()
+            print("buraya r", id_r)
+            id_f = generate_unique_random_f()
+            print("buraya bak l", id_f)
+            right_text = real_list[id_r]
+            left_text = fake_list[id_f]
+            print("liste: ", img_l)
+            print(img_l[id_f])
+            left_image = img_l[id_f]
+            right_image = img_r[id_r]
 
 
-        print(left_text)
-        round_count = 0
-        return jsonify({'image_url_r': 'static/images/' + right_image,
-                        'right_string': right_text,
-                        'image_url': 'static/images/' + left_image,
-                        'first_string': left_text
-                        })
+            print(left_text)
+            round_count = 0
+            return jsonify({'image_url_r': 'static/images/' + right_image,
+                            'right_string': right_text,
+                            'image_url': 'static/images/' + left_image,
+                            'first_string': left_text
+                            })
 
+
+@app.route('/end')
+def end_page():
+    return render_template('end_page.html')
+
+@app.route('/start')
+def start_page():
+    return render_template('welcome.html')
 
 @app.route('/next_right')
 def next_file_right():
     global right_im_index, right_text, total_qs, round_count, real_list, left_text, fake_list, img_l, img_r
     total_qs += 1
     print("round count", round_count)
-    if round_count<3:
-        round_count += 1
+    if total_qs >= 15:
+        return jsonify({'redirect': url_for('end_page')})
 
-        # right_im_index = (right_im_index + 1) % len(list_ims)
-        print('we are on the right side', right_im_index)
-        id_r = generate_unique_random_r()
-        right_text = real_list[id_r]
-        img_right = img_r[id_r]
-        print("hjhj", right_text)
-        #right_image_new_url = list_ims[id_r] #use this later
-        return jsonify({'image_url_r': 'static/images/' + img_right,
-                        'right_string': right_text
-                        })
-    elif round_count >=3:
-          print("burdayinnn")
-          id_r = generate_unique_random_r()
-          id_f = generate_unique_random_f()
-          right_text = real_list[id_r]
-          left_text = fake_list[id_f]
-          print(left_text)
+    else:
+        if round_count<3:
+            round_count += 1
 
-          pic_right = img_r[id_r]
-          pic_l = img_l[id_f]
+            # right_im_index = (right_im_index + 1) % len(list_ims)
+            print('we are on the right side', right_im_index)
+            id_r = generate_unique_random_r()
+            right_text = real_list[id_r]
+            img_right = img_r[id_r]
+            print("hjhj", right_text)
+            #right_image_new_url = list_ims[id_r] #use this later
+            return jsonify({'image_url_r': 'static/images/' + img_right,
+                            'right_string': right_text
+                            })
+        elif round_count >=3:
+              print("burdayinnn")
+              id_r = generate_unique_random_r()
+              id_f = generate_unique_random_f()
+              right_text = real_list[id_r]
+              left_text = fake_list[id_f]
+              print(left_text)
 
-          #right_image_new_url = list_ims[id_r]
-          #left_image = list_ims[id_r]
-          round_count = 0
-          return jsonify({'image_url_r': 'static/images/' + pic_right,
-                         'right_string': right_text,
-                          'image_url': 'static/images/' + pic_l,
-                          'first_string': left_text
-                          })
+              pic_right = img_r[id_r]
+              pic_l = img_l[id_f]
+
+              #right_image_new_url = list_ims[id_r]
+              #left_image = list_ims[id_r]
+              round_count = 0
+              return jsonify({'image_url_r': 'static/images/' + pic_right,
+                             'right_string': right_text,
+                              'image_url': 'static/images/' + pic_l,
+                              'first_string': left_text
+                              })
 
 
 

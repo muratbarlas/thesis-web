@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <style>
+        html, body {
+            height: 100%; /* Set the height of the body to fill the viewport */
+            display: flex; /* Use Flexbox to align children */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            background-color: #302E2E
+        }
+        .centered-container {
+            display: flex; /* Use Flexbox within the container */
+            flex-direction: column; /* Stack children vertically */
+            align-items: center; /* Align children (the paragraphs) to center horizontally */
+            justify-content: center; /* Center children vertically */
+        }
+         p {
+            font-size: 30px; /* Increase the font size */
+            text-align: center; /* Optional: Center align the text within paragraphs */
+            color:#EFEFEF
+        }
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+        .blink {
+            animation: blink 1s linear infinite;
+        }
+        button {
+            font-size: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="centered-container">
+    <p>Elections are coming up. Soon you will be entering a national voting booth. Generative AI is on the rise, making the line between fact and fabrication increasingly blurry. How well do you navigate this lanscape?  </p>
+    <p class="blink">Press any button to begin</p>
+ </div>
+
+
+</body>
+</html>
