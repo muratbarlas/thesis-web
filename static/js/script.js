@@ -105,27 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
         animate()
     });
 });
-/*
-function loadNext() {
-    // Make an AJAX request to get the next image URL
-    $.get('/next', function(data) {
-        if (data && Object.keys(data).length === 2) {
-        // Update the image source
-        $('#resizedImage').attr('src', data.image_url);
-        $('#string-display').text(data.first_string);}
-        else{
-            $('#resizedImage_right').attr('src', data.image_url_r);
-            $('#string-display_right').text(data.right_string);
-            $('#resizedImage').attr('src', data.image_url);
-            $('#string-display').text(data.first_string);
-        }
-    //console.log("heyy")
-    }).fail(function() {
-        console.log(data.image_url)
-        console.error('Failed to load next image.');
-    });
-}
-*/
+
 function loadNext() {
     // Make an AJAX request to get the next image URL
     $.get('/next', function(data) {
@@ -180,31 +160,6 @@ function loadNext_right() {
 
 }
 
-
-/*
-function loadNext_right() {
-    // Make an AJAX request to get the next image URL
-     $.get('/next_right', function(data){
-        // Update the image source
-         if (data && Object.keys(data).length === 2) {
-            $('#resizedImage_right').attr('src', data.image_url_r);
-            $('#string-display_right').text(data.right_string);
-        } else {
-            console.log("got it ")
-            console.log(data.first_string)
-            $('#resizedImage_right').attr('src', data.image_url_r);
-            $('#string-display_right').text(data.right_string);
-            $('#resizedImage').attr('src', data.image_url);
-            $('#string-display').text(data.first_string);
-        }
-    console.log("heyy2")
-    }).fail(function() {
-
-        console.error('Failed to load next image.');
-    });
-
-}
-*/
 
 
 
