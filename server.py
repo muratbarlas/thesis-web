@@ -120,10 +120,15 @@ def calculate_score():
 
 @app.route('/index')
 def index():
-    global total_qs
+    global total_qs, current_index,right_im_index, round_count, previous_numbers_f,previous_numbers_r
     total_qs = 0
+    current_index = 0
+    right_im_index = 0
+    round_count = 0
+    previous_numbers_f = set()
+    previous_numbers_r = set()
 
-    print("hello worl index page loaded")
+    print("hello worl index page loaded, variables set to 0")
     df = pd.read_csv('images.csv')  # Assuming your CSV file is named 'data.csv'
     #first_image_url = df.iloc[0,0] # Assuming 'image_url' is the column containing image URLs
     first_image_url = img_l[0]
