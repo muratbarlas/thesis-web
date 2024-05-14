@@ -2,8 +2,9 @@ from flask import Flask, render_template, jsonify, session, url_for
 from flask_socketio import SocketIO
 import pandas as pd
 import random
+import serial
 import content_class
-
+ser = serial.Serial('/dev/cu.usbmodemHIDPC1', 9600, timeout=1)
 import random
 previous_numbers_f = set()
 previous_numbers_r = set()
@@ -205,10 +206,16 @@ def next_file():
 @app.route('/end')
 def end_page():
     score = session.get('score', 79) #79 is placeholder
+    score_str = str(score)+'%'
+    message = f"{score_str}"
+    message_bytes = message.encode('utf-8')
+    #ser.write(b'Hello Arduino!')
+    ser.write(message_bytes)
     return render_template('end_page.html',  score=score)
 
 @app.route('/')
 def start_page():
+     # Data sent must be bytes, not str
     return render_template('welcome.html')
 
 @app.route('/next_right')

@@ -9,7 +9,7 @@ void setup() {
   Keyboard.begin();
   Serial.begin(9600);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
-   pinMode(BUTTON_PIN2, INPUT_PULLUP);
+  pinMode(BUTTON_PIN2, INPUT_PULLUP);
 }
 
 void loop() {
