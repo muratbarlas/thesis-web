@@ -4,7 +4,12 @@ import pandas as pd
 import random
 import serial
 import content_class
-ser = serial.Serial('/dev/cu.usbmodemHIDPC1', 9600, timeout=1)
+
+
+try:
+    ser = serial.Serial('/dev/cu.usbmodemHIDPC1', 9600, timeout=1)
+except:
+    print("PORT NOT FOUND")
 import random
 previous_numbers_f = set()
 previous_numbers_r = set()
@@ -209,8 +214,11 @@ def end_page():
     score_str = str(score)+'%'
     message = f"{score_str}"
     message_bytes = message.encode('utf-8')
-    #ser.write(b'Hello Arduino!')
-    ser.write(message_bytes)
+    try:
+        #ser.write(b'Hello Arduino!')
+        ser.write(message_bytes)
+    except:
+        print('serial connection failed')
     return render_template('end_page.html',  score=score)
 
 @app.route('/')
