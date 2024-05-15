@@ -16,7 +16,7 @@ previous_numbers_r = set()
 def generate_unique_random_f():
     global previous_numbers
     while True:
-        num = random.randint(0, 15)
+        num = random.randint(0, 198)
         if num not in previous_numbers_f:
             previous_numbers_f.add(num)
             return num
@@ -35,7 +35,7 @@ total_qs = 0
 img_l = []
 img_r = []
 
-for i in range(16):
+for i in range(200):
     if i!=0:
         img_l.append("f"+str(i)+".jpg")
         img_r.append("r" + str(i) + ".jpg")
@@ -49,7 +49,7 @@ text_long = "Contrary to popular belief, Lorem Ipsum is not simply random text. 
 #list_headlines = ["adana", text_long,"istanbul", "brooklyn"]
 
 
-
+'''''''''
 fake_list = [
  "Exclusive: Erdogan Caught Photoshopping Extra Crowds into His Rally Pictures for 'More Impact’",
 
@@ -108,6 +108,16 @@ real_list = [
     "Tim Cook says employees who leak memos do not belong at Apple, according to leaked memo"
 ]
 
+'''''''''
+fake_data = pd.read_csv('gpt_combined.csv', header=None)
+
+# Extract the first column (index 0) and convert it to a list
+fake_list= fake_data[0].tolist()
+
+real_data = pd.read_csv('real_combined.csv', header=None)
+
+# Extract the first column (index 0) and convert it to a list
+real_list= real_data[0].tolist()
 
 
 current_index = 0
