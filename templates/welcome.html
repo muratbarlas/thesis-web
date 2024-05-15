@@ -15,12 +15,24 @@
             flex-direction: column; /* Stack children vertically */
             align-items: center; /* Align children (the paragraphs) to center horizontally */
             justify-content: center; /* Center children vertically */
+            margin: 0 50px;
+
         }
          p {
-            font-size: 30px; /* Increase the font size */
+            font-size: 45px; /* Increase the font size */
             text-align: center; /* Optional: Center align the text within paragraphs */
             color:#EFEFEF
         }
+        /* Targeting specific paragraphs to decrease distance */
+.centered-container p:nth-child(1),
+.centered-container p:nth-child(2) {
+    margin-bottom: 55px; /* Reduce space below the first and second paragraphs */
+}
+
+.centered-container p:nth-child(2),
+.centered-container p:nth-child(3) {
+    margin-top: 55px; /* Reduce space above the second and third paragraphs */
+}
         @keyframes blink {
             0%, 100% {
                 opacity: 1;
@@ -38,8 +50,13 @@
 </head>
 <body>
 <div class="centered-container">
-    <p>Elections are coming up. Soon you will be entering a national voting booth. Generative AI is on the rise, making the line between fact and fabrication increasingly blurry. How well do you navigate this lanscape?  </p>
+    <p>Elections are coming up. Soon you will be entering a national voting booth.</p>
+    <p>Generative AI is on the rise, making the line between fact and fabrication increasingly blurry. </p>
+    <p>How well do you navigate this lanscape?</p>
+
+
     <p class="blink">Press any button to begin</p>
+
  </div>
  <script>
         // Function to handle the key press event
