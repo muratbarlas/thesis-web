@@ -114,7 +114,7 @@ void loop() {
 
     printer.doubleHeightOn();
     printer.println(F("Receipt of your participation"));
-    printer.println(F("Your score was: "));
+    printer.println(F("Your score is: "));
     printer.println((data));
     printer.println(F("Thank you for participating"));
     printer.println(F("What is real?"));

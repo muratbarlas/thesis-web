@@ -162,7 +162,7 @@ def next_file_right():
     total_qs += 1
     print('right clicked, total_qs:', total_qs)
     print("round count", round_count)
-    right_answer_count += 1
+    go_count += 1
     print('correct', right_answer_count)
 
     if total_qs >= 15:
