@@ -8,13 +8,14 @@ import content_class
 
 try:
     ser = serial.Serial('/dev/cu.usbmodemHIDPC1', 9600, timeout=1)
+    print("PORT SUCCESS")
 except:
     print("PORT NOT FOUND")
 import random
 previous_numbers_f = set()
 previous_numbers_r = set()
 def generate_unique_random_f():
-    global previous_numbers
+    global previous_numbers_f
     while True:
         num = random.randint(0, 198)
         if num not in previous_numbers_f:
@@ -24,7 +25,7 @@ def generate_unique_random_f():
 def generate_unique_random_r():
     global previous_numbers_r
     while True:
-        num = random.randint(0, 14)
+        num = random.randint(0, 198)
         if num not in previous_numbers_r:
             previous_numbers_r.add(num)
             return num
@@ -39,112 +40,45 @@ for i in range(200):
     if i!=0:
         img_l.append("f"+str(i)+".jpg")
         img_r.append("r" + str(i) + ".jpg")
-print(img_r)
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 socketio = SocketIO(app)
 
-list_ims = ["image1.png","image2.png","image3.png"]
-text_long = "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsu"
-#list_headlines = ["adana", text_long,"istanbul", "brooklyn"]
 
 
-'''''''''
-fake_list = [
- "Exclusive: Erdogan Caught Photoshopping Extra Crowds into His Rally Pictures for 'More Impact’",
 
-  "Turkey's Education System Under Scrutiny: Critics Accuse Erdogan's Government of Ideological Agenda",
-
-  "Drunk man accidentally takes $1,600 Uber from West Virginia to New Jersey",
-
-  "SNL star, Donald Trump Jr-Aubrey O'Day cheating scandal resurface",
-
-  "Man contracts rare infection likely during cockroach-related activities, confirmed in China",
-
-  "Levin: Biden has unleashed a housing apocalypse on America as Americans scramble to move out of cities",
-
-  "NYC's $2,000 Fine for Posting a 'Hate Speech' Sign set off a  Supreme Court debate on anti-bias laws",
-
-  "Up to 36 million vote-by-mail ballots could go missing in 2020, a new study says",
-
-  "Madonna predicted the COVID-19 outbreak in creepy bath video: 'It's the great equalizer’",
-
-  "Sweden bans balloons from Royal Wedding 'due to the environmental impact'",
-
-  "NYC voters waking up to find presidential ballot error that could cost Biden votes on local races",
-
-  "Biden suffers another major legal defeat in fight over weakened ICE deportations",
-
-"GameStop Claims It’s an “Essential Business” to Stay Open During Coronavirus Closures",
-
-"Cyberpunk 2077 delayed, doing 'more crunch than maybe have been necessary'",
-"Astronomers are worried about more and more satellites forming 'megaconstellations' around Earth after SpaceX launched nearly 50 Friday"
-]
-
-real_list = [
-"Erdogan risks losing power as Turkey's high-stakes election reaches its climax",
-
-"Erdogan's rival boosted by withdrawal, poll lead ahead of Turkey vote",
-
-"US Military Could Lose Space Force Trademark to Netflix Series",
-
-"White House threatens to fire anyone who tries to quit",
-
-"United States Risks Sanctions From Zimbabwe If Elections Are Not Free And Fair",
-
-"Trump was 'not wrong' when he warned criminals are coming across US border: Tom Homan",
-
-"Trump promotes 'God Bless the USA' Bible",
-
-"Rapper 50 Cent admits he thinks Trump's 'gonna be president again",
-
-"Hillary Clinton warns AI tech will make 2016 election disinformation 'look primitive'",
-
-"Microsoft says a Russian hacking group is still trying to crack into its systems",
-"Reddit CEO tells user, “we are not the thought police,” then suspends that user",
-  "Ben Affleck finally achieves lifelong dream of not having to play Batman anymore",
-  "McDonald's robber demands chicken nuggets, has to accept breakfast food because it was still too early",
-  "North Korean Founder Kim Il Sung Did Not Have the Ability to Teleport, State Media Admits",
-    "Tim Cook says employees who leak memos do not belong at Apple, according to leaked memo"
-]
-
-'''''''''
 fake_data = pd.read_csv('gpt_combined.csv', header=None)
-
 # Extract the first column (index 0) and convert it to a list
 fake_list= fake_data[0].tolist()
 
 real_data = pd.read_csv('real_combined.csv', header=None)
-
 # Extract the first column (index 0) and convert it to a list
 real_list= real_data[0].tolist()
 
-
-current_index = 0
-right_im_index = 0
-first_image_url = list_ims[current_index]
-#first_text = list_headlines[current_index]
-#right_text = list_headlines[right_im_index]
-
 first_text = fake_list[0]
 right_text = real_list[0]
+right_answer_count = 0
 
-def calculate_score():
-    value = random.randint(60, 90)
-    return value
+def calculate_score(right_answers):
+    score_ = int((right_answers/15)*100)
+    print('from function ra', right_answers)
+    if score_ >80:
+        score_ = random.randint(75, 85)
+    #value = random.randint(60, 90)
+    return score_
 
 
 @app.route('/index')
 def index():
-    global total_qs, current_index,right_im_index, round_count, previous_numbers_f,previous_numbers_r
+    global total_qs,  round_count, previous_numbers_f,previous_numbers_r, right_answer_count
     total_qs = 0
-    current_index = 0
-    right_im_index = 0
+    right_answer_count = 0
     round_count = 0
     previous_numbers_f = set()
     previous_numbers_r = set()
+    print(previous_numbers_f, previous_numbers_r)
 
-    print("hello worl index page loaded, variables set to 0")
+    print("hello world index page loaded, variables set to 0")
     df = pd.read_csv('images.csv')  # Assuming your CSV file is named 'data.csv'
     #first_image_url = df.iloc[0,0] # Assuming 'image_url' is the column containing image URLs
     first_image_url = img_l[0]
@@ -153,33 +87,20 @@ def index():
 
     first_text = fake_list[0]
     right_text = real_list[0]
-    #print('heyaaa', first_text)
-
-
 
     return render_template('index.html', first_image_url=first_image_url,  first_string=first_text, right_image_url=first_right_image, right_string=right_text)
 
-# @socketio.on('connect')
-# def handle_connect():
-#     df = pd.read_csv('images.csv')  # Assuming your CSV file is named 'data.csv'
-#     data = df.to_dict(orient='records')
-#     print(data)
-#     socketio.emit('csv_data', data)
-# #newww
-#     image_urls = df.iloc[:, 0].tolist()  # Assuming URLs are in the first column
-#
-#     # Send CSV data (image URLs) to the client
-#     socketio.emit('csv_data', image_urls)
+
 
 @app.route('/next')
 def next_file():
-    global current_index, first_image_url, first_text, list_headlines,total_qs,round_count,img_l,im_r
-    current_index = (current_index + 1) % len(list_ims)
+    global first_image_url, first_text, list_headlines,total_qs,round_count,img_l,im_r,right_answer_count
     total_qs += 1
     print('left clicked, total_qs:', total_qs)
+    print('hellogg', right_answer_count)
     if total_qs >= 15:
         print('cok')
-        score = calculate_score()
+        score = calculate_score(right_answer_count)
         session['score'] = score
         return jsonify({'redirect': url_for('end_page')})
     else:
@@ -201,7 +122,6 @@ def next_file():
             print("buraya bak l", id_f)
             right_text = real_list[id_r]
             left_text = fake_list[id_f]
-            print("liste: ", img_l)
             print(img_l[id_f])
             left_image = img_l[id_f]
             right_image = img_r[id_r]
@@ -238,12 +158,15 @@ def start_page():
 
 @app.route('/next_right')
 def next_file_right():
-    global right_im_index, right_text, total_qs, round_count, real_list, left_text, fake_list, img_l, img_r
+    global right_text, total_qs, round_count, real_list, left_text, fake_list, img_l, img_r,right_answer_count
     total_qs += 1
     print('right clicked, total_qs:', total_qs)
     print("round count", round_count)
+    right_answer_count += 1
+    print('correct', right_answer_count)
+
     if total_qs >= 15:
-        score = calculate_score()
+        score = calculate_score(right_answer_count)
         session['score'] = score
         return jsonify({'redirect': url_for('end_page'),
                         })
@@ -252,8 +175,7 @@ def next_file_right():
         if round_count<3:
             round_count += 1
 
-            # right_im_index = (right_im_index + 1) % len(list_ims)
-            print('we are on the right side', right_im_index)
+            print('we are on the right side')
             id_r = generate_unique_random_r()
             right_text = real_list[id_r]
             img_right = img_r[id_r]
