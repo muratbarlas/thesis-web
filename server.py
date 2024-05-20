@@ -60,12 +60,15 @@ right_text = real_list[0]
 right_answer_count = 0
 
 def calculate_score(right_answers):
-    score_ = int((right_answers/15)*100)
+    score_ = int((right_answers/12)*100)
     print('from function ra', right_answers)
-    if score_ >80:
-        score_ = random.randint(75, 85)
+    score_to_send = 0
+    if score_<=80:
+        score_to_send = random.randint(40, 74)
+    elif score_ >80:
+        score_to_send = score_ = random.randint(75, 85)
     #value = random.randint(60, 90)
-    return score_
+    return score_to_send
 
 
 @app.route('/index')
@@ -96,6 +99,8 @@ def index():
 def next_file():
     global first_image_url, first_text, list_headlines,total_qs,round_count,img_l,im_r,right_answer_count
     total_qs += 1
+    right_answer_count += 1
+
     print('left clicked, total_qs:', total_qs)
     print('hellogg', right_answer_count)
     if total_qs >= 15:
@@ -162,7 +167,6 @@ def next_file_right():
     total_qs += 1
     print('right clicked, total_qs:', total_qs)
     print("round count", round_count)
-    right_answer_count += 1
     print('correct', right_answer_count)
 
     if total_qs >= 15:
